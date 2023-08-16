@@ -9,6 +9,7 @@ import ru.netology.webservice.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
 
+
 public class SQLServiceTest {
 
     MainPage mainPage = new MainPage();
@@ -24,11 +25,6 @@ public class SQLServiceTest {
         SelenideLogger.removeListener("allure");
     }
 
-//    @AfterAll
-//    static void teardown() {
-//        SQLHelper.cleanDatabase();
-//    }
-
     @BeforeEach
     void setup() {
         open("http://localhost:8080/");
@@ -41,22 +37,17 @@ public class SQLServiceTest {
         mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getStatusInfo();
-        var actual = SQLHelper.getStatusInfoPayment();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals("APPROVED", SQLHelper.getStatusInfoPayment());
 
     }
 
-    // не проходит:
     @Test
     void shouldTestPaymentHappyPathTwoDatabasePayStatus() {
         mainPage.clickPaymentButton();
         mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getStatusInfo();
-        var actual = SQLHelper.getStatusInfoPayment();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals("DECLINED", SQLHelper.getStatusInfoPayment());
 
     }
 
@@ -67,70 +58,59 @@ public class SQLServiceTest {
         mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getStatusInfo();
-        var actual = SQLHelper.getStatusInfoCredit();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals("APPROVED", SQLHelper.getStatusInfoCredit());
     }
 
-    // не проходит:
+
     @Test
     void shouldTestCreditRequestHappyPathTwoPayStatus() {
         mainPage.clickCreditButton();
         mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getStatusInfo();
-        var actual = SQLHelper.getStatusInfoCredit();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals("DECLINED", SQLHelper.getStatusInfoCredit());
     }
 
 
     @Test
-    void shouldTestPaymentHappyPathOneCreditIdNull() {
+    void shouldTestPaymentHappyPathOneOrderEntityIdComparison() {
         mainPage.clickPaymentButton();
         mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getIdInfo();
-        var actual = SQLHelper.getIdInfo();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(SQLHelper.getPaymentTransId(), SQLHelper.getOrderPaymentId());
 
     }
 
     @Test
-    void shouldTestPaymentHappyPathTwoCreditIdNull() {
+    void shouldTestPaymentHappyPathTwoOrderEntityIdComparison() {
         mainPage.clickPaymentButton();
         mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getIdInfo();
-        var actual = SQLHelper.getIdInfo();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(SQLHelper.getPaymentTransId(), SQLHelper.getOrderPaymentId());
 
     }
 
-
+    //не проходит
     @Test
-    void shouldTestCreditRequestHappyPathOneCreditIdNull() {
+    void shouldTestCreditRequestHappyPathOneOrderEntityIdComparison() {
         mainPage.clickCreditButton();
         mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getIdInfo();
-        var actual = SQLHelper.getIdInfo();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(SQLHelper.getCreditReqBankId(), SQLHelper.getOrderCreditId());
 
     }
 
+    //не проходит
     @Test
-    void shouldTestCreditRequestHappyPathTwoCreditIdNull() {
+    void shouldTestCreditRequestHappyPathTwoOrderEntityIdComparison() {
         mainPage.clickCreditButton();
         mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        var expected = DataHelper.getIdInfo();
-        var actual = SQLHelper.getIdInfo();
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(SQLHelper.getCreditReqBankId(), SQLHelper.getOrderCreditId());
 
     }
 

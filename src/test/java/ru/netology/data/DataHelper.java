@@ -22,14 +22,6 @@ public class DataHelper {
         return new HappyPathTwoInfo();
     }
 
-    public static StatusInfo getStatusInfo() {
-        return new StatusInfo("APPROVED");
-    }
-
-    public static CreditIdInfo getIdInfo() {
-        return new CreditIdInfo(null);
-    }
-
     public static long generateInvalidCardNumber() {
         long invalidCardNumber = faker.number().randomNumber(15, false);
         return invalidCardNumber;
@@ -50,32 +42,24 @@ public class DataHelper {
         return invalidCvc;
     }
 
-    public static String generateCurrentMonth() {
-        String currentMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
+
+    public static String generateMonth(int shift) {
+        String currentMonth = LocalDate.now().minusMonths(shift).format(DateTimeFormatter.ofPattern("MM"));
         return currentMonth;
     }
 
-    public static String generatePrevMonth(int shift) {
-        String prevMonth = LocalDate.now().minusMonths(shift).format(DateTimeFormatter.ofPattern("MM"));
-        return prevMonth;
-    }
-
-    public static String generateCurrentYear() {
-        String currentYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
+    public static String generateYear(int shift) {
+        String currentYear = LocalDate.now().minusYears(shift).format(DateTimeFormatter.ofPattern("yy"));
         return currentYear;
     }
 
-    public static String generatePrevYear(int shift) {
-        String prevYear = LocalDate.now().minusYears(shift).format(DateTimeFormatter.ofPattern("yy"));
-        return prevYear;
-    }
 
     @Value
 
     public static class HappyPathOneInfo {
         String cardNumber = "4444 4444 4444 4441";
-        String month = generateCurrentMonth();
-        String year = generateCurrentYear();
+        String month = generateMonth(0);
+        String year = generateYear(0);
         String owner = "Ivanov Ivan";
         String cvc = "999";
 
@@ -85,21 +69,11 @@ public class DataHelper {
 
     public static class HappyPathTwoInfo {
         String cardNumber = "4444 4444 4444 4442";
-        String month = generateCurrentMonth();
-        String year = generateCurrentYear();
+        String month = generateMonth(0);
+        String year = generateYear(0);
         String owner = "Petrov Aleksandr ";
         String cvc = "001";
 
-    }
-
-    @Value
-    public static class StatusInfo {
-        String status;
-    }
-
-    @Value
-    public static class CreditIdInfo {
-        String creditIdInfo;
     }
 
 }
