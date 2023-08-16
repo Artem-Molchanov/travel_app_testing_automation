@@ -65,6 +65,13 @@ public class SQLHelper {
     }
 
     @SneakyThrows
+    public static int getPayedAmount() {
+        var codeSQL = "SELECT amount FROM payment_entity ORDER BY created DESC LIMIT 1";
+        var conn = getConn();
+        return runner.query(conn, codeSQL, new ScalarHandler<>());
+    }
+
+    @SneakyThrows
     public static void cleanDatabase() {
         var connection = getConn();
         runner.execute(connection, "DELETE FROM credit_request_entity");
