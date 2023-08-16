@@ -114,4 +114,26 @@ public class SQLServiceTest {
 
     }
 
+    //не проходит
+    @Test
+    void shouldTestPaymentHappyPathOneAmountCheck() {
+        mainPage.clickPaymentButton();
+        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.clickContinueButton();
+        mainPage.findSuccessMsg();
+        Assertions.assertEquals("45000", SQLHelper.getPayedAmount());
+
+    }
+
+    //не проходит
+    @Test
+    void shouldTestPaymentHappyPathTwoAmountCheck() {
+        mainPage.clickPaymentButton();
+        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        mainPage.clickContinueButton();
+        mainPage.findSuccessMsg();
+        Assertions.assertEquals("45000", SQLHelper.getPayedAmount());
+
+    }
+
 }
