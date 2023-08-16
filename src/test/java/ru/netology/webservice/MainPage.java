@@ -4,9 +4,7 @@ package ru.netology.webservice;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
-
 import java.time.Duration;
-
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -141,12 +139,12 @@ public class MainPage {
     }
 
     public void getPrevMonth() {
-        String prevMonth = DataHelper.generatePrevMonth(1);
+        String prevMonth = DataHelper.generateMonth(1);
         cardMonthInput.setValue(prevMonth);
     }
 
     public void getPrevYear() {
-        String prevYear = DataHelper.generatePrevYear(1);
+        String prevYear = DataHelper.generateYear(1);
         cardYearInput.setValue(prevYear);
     }
 
