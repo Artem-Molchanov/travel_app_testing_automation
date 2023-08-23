@@ -1,6 +1,5 @@
 package ru.netology.test;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterAll;
@@ -11,11 +10,23 @@ import ru.netology.data.DataHelper;
 import ru.netology.webservice.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.sleep;
 
 
 public class UIServiceTest {
 
     MainPage mainPage = new MainPage();
+    DataHelper.CardInfo cardInfo = new DataHelper.CardInfo(
+            "4444444444444441",
+            DataHelper.genMonth(0),
+            DataHelper.genYear(0),
+            DataHelper.genValidCardOwner(),
+            DataHelper.generateValidCvc()
+    );
+
+
+
+
 
     @BeforeAll
     static void setUpAll() {
@@ -34,34 +45,51 @@ public class UIServiceTest {
 
     }
 
+
+
     @Test
-    void shouldTestBuyHappyPathOne() {
+    void shouldTestPaymentHappyPathOne() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
     }
 
     @Test
-    void shouldTestBuyHappyPathTwo() {
+    void shouldTestPaymentHappyPathTwo() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
     }
 
     @Test
-    void shouldTestBuyCreditHappyPathOne() {
+    void shouldTestCreditHappyPathOne() {
         mainPage.clickCreditButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
     }
 
     @Test
-    void shouldTestBuyCreditHappyPathTwo() {
+    void shouldTestCreditHappyPathTwo() {
         mainPage.clickCreditButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
     }
@@ -69,7 +97,12 @@ public class UIServiceTest {
     @Test
     void shouldTestCardNumberEmptyFieldMsg() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFieldsExceptCardNumber(DataHelper.getHappyPathOneInfo());
+        cardInfo.setCardNumber("");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
     }
@@ -77,7 +110,12 @@ public class UIServiceTest {
     @Test
     void shouldTestMonthEmptyFieldMsg() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFieldsExceptMonth(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+        cardInfo.setMonth("");
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
     }
@@ -85,7 +123,12 @@ public class UIServiceTest {
     @Test
     void shouldTestYearEmptyFieldMsg() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFieldsExceptYear(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+        cardInfo.setYear("");
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
     }
@@ -93,7 +136,12 @@ public class UIServiceTest {
     @Test
     void shouldTestCardOwnerFieldMsg() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFieldsExceptOwner(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+        cardInfo.setOwner("");
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findRequiredFieldMsg();
     }
@@ -101,7 +149,12 @@ public class UIServiceTest {
     @Test
     void shouldTestCvcEmptyFieldMsg() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFieldsExceptCvc(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+        cardInfo.setCvc("");
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
     }
@@ -109,17 +162,31 @@ public class UIServiceTest {
     @Test
     void shouldTestInvalidCardNumberMsg() {
         mainPage.clickPaymentButton();
-        mainPage.getInvalidCardNumber();
-        mainPage.fillAllFieldsExceptCardNumber(DataHelper.getHappyPathOneInfo());
+        cardInfo.setCardNumber(DataHelper.genRandomDigits("##########"));
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
+
+
+//
+//        mainPage.getInvalidCardNumber();
+//        mainPage.fillAllFieldsExceptCardNumber(DataHelper.getHappyPathOneInfo());
+//        mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
     }
 
     @Test
     void shouldTestInvalidMonthMsg() {
         mainPage.clickPaymentButton();
-        mainPage.getInvalidMonth();
-        mainPage.fillAllFieldsExceptMonth(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+        cardInfo.setMonth(DataHelper.genRandomDigits("#"));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
     }
@@ -128,8 +195,12 @@ public class UIServiceTest {
     @Test
     void shouldTestInvalidYearMsg() {
         mainPage.clickPaymentButton();
-        mainPage.getInvalidYear();
-        mainPage.fillAllFieldsExceptYear(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+        cardInfo.setYear(DataHelper.genRandomDigits("#"));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
 
@@ -139,8 +210,12 @@ public class UIServiceTest {
     @Test
     void shouldTestInvalidOwnerNameQuote() {
         mainPage.clickPaymentButton();
-        mainPage.getInvalidOwnerNameQuote();
-        mainPage.fillAllFieldsExceptOwner(DataHelper.getHappyPathOneInfo());
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+        cardInfo.setOwner(DataHelper.genInvalidOwnerNameQuote());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
 
@@ -150,9 +225,19 @@ public class UIServiceTest {
     @Test
     void shouldTestInvalidOwnerNameInDigit() {
         mainPage.clickPaymentButton();
-        mainPage.getInvalidOwnerNameDigit();
-        mainPage.fillAllFieldsExceptOwner(DataHelper.getHappyPathOneInfo());
+//
+//
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+        cardInfo.setOwner(DataHelper.genRandomDigits("##################"));
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
+//
+//        mainPage.getInvalidOwnerNameDigit();
+//        mainPage.fillAllFieldsExceptOwner(DataHelper.getHappyPathOneInfo());
+//        mainPage.clickContinueButton();
         mainPage.findWrongFormatMsg();
 
     }
@@ -161,9 +246,17 @@ public class UIServiceTest {
     @Test
     void shouldTestInvalidCvcMsg() {
         mainPage.clickPaymentButton();
-        mainPage.getInvalidCvc();
-        mainPage.fillAllFieldsExceptCvc(DataHelper.getHappyPathOneInfo());
+//
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+        cardInfo.setCvc(DataHelper.genRandomDigits("#"));
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
+//
+//        mainPage.getInvalidCvc();
+//        mainPage.fillAllFieldsExceptCvc(DataHelper.getHappyPathOneInfo());
         mainPage.findWrongFormatMsg();
 
     }
@@ -171,8 +264,21 @@ public class UIServiceTest {
     @Test
     void shouldTestMonthCardExpireMsg() {
         mainPage.clickPaymentButton();
-        mainPage.getPrevMonth();
-        mainPage.fillAllFieldsExceptMonth(DataHelper.getHappyPathOneInfo());
+
+        cardInfo.setCardNumber("4444444444444441");
+        cardInfo.setMonth(DataHelper.genMonth(1));
+//        cardInfo.setYear(DataHelper.genYear(0));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
+        mainPage.clickContinueButton();
+        mainPage.findWrongCardDateMsg();
+        sleep(7000);
+
+
+
+//        mainPage.getPrevMonth();
+//        mainPage.fillAllFieldsExceptMonth(DataHelper.getHappyPathOneInfo());
         mainPage.clickContinueButton();
         mainPage.findWrongCardDateMsg();
 
@@ -182,10 +288,20 @@ public class UIServiceTest {
     @Test
     void shouldTestYearCardExpireMsg() {
         mainPage.clickPaymentButton();
-        mainPage.getPrevYear();
-        mainPage.fillAllFieldsExceptYear(DataHelper.getHappyPathOneInfo());
+//
+//        cardInfo.setCardNumber("4444444444444441");
+//        cardInfo.setMonth(DataHelper.genMonth(0));
+        cardInfo.setYear(DataHelper.genYear(1));
+//        cardInfo.setOwner(DataHelper.genValidCardOwner());
+//        cardInfo.setCvc(DataHelper.generateValidCvc());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
+
+//        mainPage.getPrevYear();
+//        mainPage.fillAllFieldsExceptYear(DataHelper.getHappyPathOneInfo());
+//        mainPage.clickContinueButton();
         mainPage.findCardExpireMsg();
+        sleep( 7000);
 
     }
 }

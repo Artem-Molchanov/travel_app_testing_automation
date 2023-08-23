@@ -2,7 +2,9 @@ package ru.netology.data;
 
 import com.github.javafaker.BackToTheFuture;
 import com.github.javafaker.Faker;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,66 +16,42 @@ public class DataHelper {
     private DataHelper() {
     }
 
-    public static HappyPathOneInfo getHappyPathOneInfo() {
-        return new HappyPathOneInfo();
+    public static String genRandomDigits(String setDigitQuantity) {
+        return faker.numerify(setDigitQuantity);
     }
 
-    public static HappyPathTwoInfo getHappyPathTwoInfo() {
-        return new HappyPathTwoInfo();
+    public static String genValidCardOwner() {
+        return faker.name().name();
+
     }
 
-    public static long generateInvalidCardNumber() {
-        long invalidCardNumber = faker.number().randomNumber(15, false);
-        return invalidCardNumber;
-    }
-
-    public static int generateInvalidMonthOrYear() {
-        int invalidMonthOrYear = faker.number().randomDigit();
-        return invalidMonthOrYear;
-    }
-
-    public static String generateInvalidOwnerNameQuote() {
+    public static String genInvalidOwnerNameQuote() {
         BackToTheFuture invalidOwnerName = faker.backToTheFuture();
         return invalidOwnerName.quote();
     }
 
-    public static int generateInvalidCvc() {
-        int invalidCvc = (int) faker.number().randomNumber(2, false);
-        return invalidCvc;
+    public static String generateValidCvc() {
+        return faker.numerify("###");
     }
 
 
-    public static String generateMonth(int shift) {
-        String currentMonth = LocalDate.now().minusMonths(shift).format(DateTimeFormatter.ofPattern("MM"));
-        return currentMonth;
+    public static String genMonth(int shift) {
+        return LocalDate.now().minusMonths(shift).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String generateYear(int shift) {
-        String currentYear = LocalDate.now().minusYears(shift).format(DateTimeFormatter.ofPattern("yy"));
-        return currentYear;
+    public static String genYear(int shift) {
+        return LocalDate.now().minusYears(shift).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-
-    @Value
-
-    public static class HappyPathOneInfo {
-        String cardNumber = "4444 4444 4444 4441";
-        String month = generateMonth(0);
-        String year = generateYear(0);
-        String owner = "Ivanov Ivan";
-        String cvc = "999";
-
-    }
-
-    @Value
-
-    public static class HappyPathTwoInfo {
-        String cardNumber = "4444 4444 4444 4442";
-        String month = generateMonth(0);
-        String year = generateYear(0);
-        String owner = "Petrov Aleksandr ";
-        String cvc = "001";
-
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class CardInfo {
+        private String cardNumber;
+        private String month;
+        private String year;
+        private String owner;
+        private String cvc;
     }
 
 }

@@ -14,6 +14,14 @@ public class SQLServiceTest {
 
     MainPage mainPage = new MainPage();
 
+    DataHelper.CardInfo cardInfo = new DataHelper.CardInfo(
+            "4444444444444441",
+            DataHelper.genMonth(0),
+            DataHelper.genYear(0),
+            DataHelper.genValidCardOwner(),
+            DataHelper.generateValidCvc()
+    );
+
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
@@ -34,7 +42,7 @@ public class SQLServiceTest {
     @Test
     void shouldTestPaymentHappyPathOneDatabasePayStatus() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals("APPROVED", SQLHelper.getStatusInfoPayment());
@@ -44,7 +52,8 @@ public class SQLServiceTest {
     @Test
     void shouldTestPaymentHappyPathTwoDatabasePayStatus() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals("DECLINED", SQLHelper.getStatusInfoPayment());
@@ -55,7 +64,7 @@ public class SQLServiceTest {
     @Test
     void shouldTestCreditRequestHappyPathOnePayStatus() {
         mainPage.clickCreditButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals("APPROVED", SQLHelper.getStatusInfoCredit());
@@ -65,7 +74,8 @@ public class SQLServiceTest {
     @Test
     void shouldTestCreditRequestHappyPathTwoPayStatus() {
         mainPage.clickCreditButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals("DECLINED", SQLHelper.getStatusInfoCredit());
@@ -75,7 +85,7 @@ public class SQLServiceTest {
     @Test
     void shouldTestPaymentHappyPathOneOrderEntityIdComparison() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals(SQLHelper.getPaymentTransId(), SQLHelper.getOrderPaymentId());
@@ -85,7 +95,8 @@ public class SQLServiceTest {
     @Test
     void shouldTestPaymentHappyPathTwoOrderEntityIdComparison() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals(SQLHelper.getPaymentTransId(), SQLHelper.getOrderPaymentId());
@@ -96,7 +107,7 @@ public class SQLServiceTest {
     @Test
     void shouldTestCreditRequestHappyPathOneOrderEntityIdComparison() {
         mainPage.clickCreditButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals(SQLHelper.getCreditReqBankId(), SQLHelper.getOrderCreditId());
@@ -107,32 +118,32 @@ public class SQLServiceTest {
     @Test
     void shouldTestCreditRequestHappyPathTwoOrderEntityIdComparison() {
         mainPage.clickCreditButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
         Assertions.assertEquals(SQLHelper.getCreditReqBankId(), SQLHelper.getOrderCreditId());
 
     }
 
-    //не проходит
     @Test
     void shouldTestPaymentHappyPathOneAmountCheck() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathOneInfo());
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        Assertions.assertEquals("45000", SQLHelper.getPayedAmount());
+        Assertions.assertEquals(4_500_000, SQLHelper.getPayedAmount());
 
     }
 
-    //не проходит
     @Test
     void shouldTestPaymentHappyPathTwoAmountCheck() {
         mainPage.clickPaymentButton();
-        mainPage.fillAllFields(DataHelper.getHappyPathTwoInfo());
+        cardInfo.setCardNumber("4444444444444442");
+        mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
         mainPage.findSuccessMsg();
-        Assertions.assertEquals("45000", SQLHelper.getPayedAmount());
+        Assertions.assertEquals(4_500_000, SQLHelper.getPayedAmount());
 
     }
 
