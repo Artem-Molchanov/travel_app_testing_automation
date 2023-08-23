@@ -55,7 +55,7 @@ public class SQLServiceTest {
         cardInfo.setCardNumber("4444444444444442");
         mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
-        mainPage.findSuccessMsg();
+//        mainPage.findRefuseMsg();
         Assertions.assertEquals("DECLINED", SQLHelper.getStatusInfoPayment());
 
     }
@@ -77,7 +77,7 @@ public class SQLServiceTest {
         cardInfo.setCardNumber("4444444444444442");
         mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
-        mainPage.findSuccessMsg();
+//        mainPage.findRefuseMsg();
         Assertions.assertEquals("DECLINED", SQLHelper.getStatusInfoCredit());
     }
 
@@ -98,7 +98,7 @@ public class SQLServiceTest {
         cardInfo.setCardNumber("4444444444444442");
         mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
-        mainPage.findSuccessMsg();
+//        mainPage.findRefuseMsg();
         Assertions.assertEquals(SQLHelper.getPaymentTransId(), SQLHelper.getOrderPaymentId());
 
     }
@@ -121,7 +121,7 @@ public class SQLServiceTest {
         cardInfo.setCardNumber("4444444444444442");
         mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
-        mainPage.findSuccessMsg();
+//        mainPage.findRefuseMsg();
         Assertions.assertEquals(SQLHelper.getCreditReqBankId(), SQLHelper.getOrderCreditId());
 
     }
@@ -142,7 +142,7 @@ public class SQLServiceTest {
         cardInfo.setCardNumber("4444444444444442");
         mainPage.fillFields(cardInfo);
         mainPage.clickContinueButton();
-        mainPage.findSuccessMsg();
+//        mainPage.findRefuseMsg();
         Assertions.assertEquals(4_500_000, SQLHelper.getPayedAmount());
 
     }

@@ -21,7 +21,8 @@ public class MainPage {
     private final SelenideElement cardOwnerInput = $x("//span[text()='Владелец']//..//input");
     private final SelenideElement cardCvcInput = $("[maxlength='3']");
     private final SelenideElement continueButton = $x("//span[@class='spin spin_size_m spin_theme_alfa-on-white']//../..");
-    private final SelenideElement successMsg = $x("//div[text() ='Успешно']");
+    private final SelenideElement successMsg = $(byText("Операция одобрена Банком."));
+    private final SelenideElement refuseMsg = $(byText("Ошибка! Банк отказал в проведении операции."));
     private final SelenideElement wrongFormatMsg = $(byText("Неверный формат"));
     private final SelenideElement requiredFieldMsg = $(byText("Поле обязательно для заполнения"));
     private final SelenideElement wrongCardDateMsg = $(byText("Неверно указан срок действия карты"));
@@ -49,7 +50,11 @@ public class MainPage {
     }
 
     public void findSuccessMsg() {
-        successMsg.shouldHave(Condition.text("Успешно"), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        successMsg.shouldHave(Condition.visible, Duration.ofSeconds(15));
+    }
+
+    public void findRefuseMsg() {
+        refuseMsg.shouldHave(Condition.visible, Duration.ofSeconds(15));
     }
 
     public void findWrongFormatMsg() {
