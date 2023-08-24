@@ -72,4 +72,8 @@ public class MainPage {
     public void findCardExpireMsg() {
         cardExpireMsg.shouldBe(Condition.visible);
     }
+
+    public void shouldNotFindRequiredFieldMsg() {
+        requiredFieldMsg.shouldNotBe(Condition.visible);
+    }
 }
