@@ -204,4 +204,15 @@ public class UIServiceTest {
         mainPage.clickContinueButton();
         mainPage.findCardExpireMsg();
     }
+
+    //не проходит
+    @Test
+    void shouldTestCvcEmptyFieldNotFindRequiredFieldMsg() {
+        mainPage.clickPaymentButton();
+        cardInfo.setCvc("");
+        mainPage.fillFields(cardInfo);
+        mainPage.clickContinueButton();
+        mainPage.findWrongFormatMsg();
+        mainPage.shouldNotFindRequiredFieldMsg();
+    }
 }
