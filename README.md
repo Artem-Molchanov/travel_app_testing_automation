@@ -1,7 +1,7 @@
 ### _Автоматизированное тестирование веб-сервиса по покупке тура "Путешествие дня"_
 
 
-## 1. Общие данные
+## 1. Общие сведения
 
 Функционал веб-сервиса предлагает купить тур двумя способами:
 
@@ -14,22 +14,32 @@
 
 ИСР (для Java), Docker (либо: СУБД MySQL, PostgreSQL и Node.js).
 
-## 3. Условия запуска автотестов
+## 3. Условия для проведения автотестов
 
-Докеризация приложений проводится через команду:
+### Докеризация 
+
+Запуск процесса:
 
 > docker compose up
 
-По умолчанию, тестирование БД проходит на MySQL (учетные данные заданы в application.properties). Запуск приложения осуществляется через команду:
+### Тестирование БД на MySQL (задано по умолчанию)  
+
+Запуск приложения:
 
 > java -jar artifacts/aqa-shop.jar
 
-Или через графический интерфейс среды разработки.
-
-Для тестирования БД PostgreSQL, приложение запускается через команду: 
-
-> java -jar artifacts/aqa-shop.jar "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" "-Dspring.datasource.username=app" "-Dspring.datasource.password=pass"
-
-Запуск автотестов производится через команду:
+Запуск автотестов:
 
 >./gradlew clean test 
+
+### Тестирование БД PostgreSQL
+
+Запуск приложения:
+
+> java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" "-Dspring.datasource.username=app" "-Dspring.datasource.password=pass" -jar artifacts/aqa-shop.jar
+
+Запуск автотестов:
+
+>./gradlew test "-Durl=jdbc:postgresql://localhost:5432/app"
+
+
