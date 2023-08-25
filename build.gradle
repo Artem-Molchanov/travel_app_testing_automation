@@ -34,6 +34,8 @@ dependencies {
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
     testImplementation 'io.qameta.allure:allure-selenide:2.20.1'
     testImplementation 'org.testcontainers:postgresql:1.18.3'
+    implementation 'org.postgresql:postgresql:42.1.4'
+
 
 }
 
